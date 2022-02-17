@@ -1,0 +1,36 @@
+body,html{
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.container {
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
+}
+
+#snortbuilder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#snortbuilder>*{
+    margin: 0 0.2em;
+}
+
+#threshold, #nocase, #http_method {
+    display: none;
+}
+
+#threshold > select {
+    max-width: 10em;
+}
+
+
+textarea{
+    width: 100%;
+    resize: vertical;
+    min-height: 1em;
+}

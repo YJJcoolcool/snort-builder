@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Solutional</title>
+    <!-- Script for the snort builder -->
+    <script src="index.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body><!-- Datalist for IPs -->
+    <datalist id="iplist">
+        <option value="any">Any IP</option>
+        <option value="192.168.1.">Single IP</option>
+        <option value="192.168.1.0/24">IP range</option>
+        <option value="[192.168.1. , 192.168.1. ]">List of IPs</option>
+    </datalist>
+    <!-- Datalist for Ports -->
+    <datalist id="portlist">
+        <option value="any">Any port</option>
+        <option value="21">(FTP)</option>
+        <option value="22">(SSH)</option>
+        <option value="23">(Telnet)</option>
+        <option value="25">(SMTP (Sending email))</option>
+        <option value="53">(DNS (UDP))</option>
+        <option value="69">(TFTP (UDP))</option>
+        <option value="80">(HTTP)</option>
+        <option value="110">(POP3 (Receiving email))</option>
+        <option value="139">(NetBIOS)</option>
+        <option value="143">(IMAP (Receiving email))</option>
+        <option value="443">(HTTPS)</option>
+        <option value="3389">(RDP)</option>
+    </datalist>
+    <!-- Datalist for classtype -->
+    <datalist id="classtypelist">
+        <option value="attempted-admin">Attempted Administrator Privilege Gain</option>
+        <option value="attempted-user">Attempted User Privilege Gain</option>
+        <option value="inappropriate-content">Inappropriate Content was Detected</option>
+        <option value="policy-violation">Potential Corporate Privacy Violation</option>
+        <option value="shellcode-detect">Executable code was detected</option>
+        <option value="successful-admin">Successful Administrator Privilege Gain</option>
+        <option value="successful-user">Successful User Privilege Gain</option>
+        <option value="trojan-activity">A Network Trojan was detected</option>
+        <option value="unsuccessful-user">Unsuccessful User Privilege Gain</option>
+        <option value="web-application-attack">Web Application Attack</option>
+        <option value="attempted-dos">Attempted Denial of Service</option>
+        <option value="attempted-recon">Attempted Information Leak</option>
+        <option value="bad-unknown">Potentially Bad Traffic</option>
+        <option value="default-login-attempt">Attempt to login by a default username and password</option>
+        <option value="denial-of-service">Detection of a Denial of Service Attack</option>
+        <option value="misc-attack">Misc Attack</option>
+        <option value="non-standard-protocol">Detection of a non-standard protocol or event</option>
+        <option value="rpc-portmap-decode">Decode of an RPC Query</option>
+        <option value="successful-dos">Denial of Service</option>
+        <option value="successful-recon-largescale">Large Scale Information Leak</option>
+        <option value="successful-recon-limited">Information Leak</option>
+        <option value="suspicious-filename-detect">A suspicious filename was detected</option>
+        <option value="suspicious-login">An attempted login using a suspicious username was detected</option>
+        <option value="system-call-detect">A system call was detected</option>
+        <option value="unusual-client-port-connection">A client was using an unusual port</option>
+        <option value="web-application-activity">Access to a potentially vulnerable web application</option>
+        <option value="icmp-event">Generic ICMP event</option>
+        <option value="misc-activity">Misc activity</option>
+        <option value="network-scan">Detection of a Network Scan</option>
+        <option value="not-suspicious">Not Suspicious Traffic</option>
+        <option value="protocol-command-decode">Generic Protocol Command Decode</option>
+        <option value="string-detect">A suspicious string was detected</option>
+        <option value="uknown">Unknown Traffic</option>
+        <option value="tcp-connection">A TCP connection was detected</option>
+    </datalist>
+    <datalist>
+        
+    </datalist>
+    <div class="container">
+        <h1>Snort Builder</h1>
+        <hr>
+        <br>
+        <div id="snortbuilder">
+            <p>alert</p>
+            <select name="protocol" id="protocol">
+                <option value="tcp" selected>tcp</option>
+                <option value="udp">udp</option>
+                <option value="icmp">icmp</option>
+                <option value="ip">ip</option>
+            </select>
+            <input type="text" name="srcip" id="srcip" list="iplist" placeholder="Source IP">
+            <input type="text" name="srcport" id="srcport" list="portlist" placeholder="Source Port">
+            <select name="direction" id="direction">
+                <option value="->" selected>-></option>
+                <option value="&lt;&gt;">&lt;&gt;</option>
+            </select>
+            <input type="text" name="dstip" id="dstip" list="iplist" placeholder="Destination IP">
+            <input type="text" name="dstport" id="dstport" list="portlist" placeholder="Destination Port">
+            (
+            <div>
+                msg:"
+                <input type="text" name="msg" id="msg" placeholder="Alert Message">
+                ";
+            </div>
+            <div id="contentarea">
+                <template id="contenttemplate">
+                    <div>
+                        content: "
+                        <input type="text" id="" placeholder="Content to detect">
+                        ";
+                        <button onclick="removeElement('content',this.parentNode.getElementsByTagName('input')[0].id)">Remove</button>
+                    </div>
+                </template>
+            </div>
+            <p id="nocase">
+                nocase; 
+            </p>
+            <p id="http_method">
+                http_method; 
+            </p>
+            <div id="regexarea">
+                <template id="regextemplate">
+                    <div>
+                        regex: "
+                        <input type="text" id="" placeholder="Regex to detect">
+                        ";
+                        <button onclick="removeElement('regex',this.parentNode.getElementsByTagName('input')[0].id)">Remove</button>
+                    </div>
+                </template>
+            </div>
+            <div id="threshold">
+                threshold: type 
+                <select name="thresholdtype" id="thresholdtype">
+                    <option value="limit"selected>limit (Alerts on the 1st m events during the time interval, then ignores events for the rest of the time interval)</option>
+                    <option value="threshold">threshold (Alerts every m times we see this event during the time interval)</option>
+                    <option value="both">both (Alerts once per time interval after seeing m occurrences of the event, then ignores any additional events during the time interval)</option>
+                </select>
+                , track 
+                <select name="trackby" id="trackby">
+                    <option value="by_src" selected>by_src (Count is maintained for each unique source IP address)</option>
+                    <option value="by_dst">by_dst (Count is maintained for each unique destination IP address)</option>
+                </select>
+                , count 
+                <input type="number" name="count" id="count" min="0">
+                , seconds 
+                <input type="number" name="seconds" id="seconds" min="0">
+                ;
+            </div>
+            <div>
+                classtype:
+                <input type="text" name="classtype" id="classtype" list="classtypelist" placeholder="Classtype">
+                ;
+            </div>
+            <div>
+                sid:
+                <input type="number" name="sid" id="sid" min="1" step="1" list="defaultsid">
+                <datalist id="defaultsid">
+                    <option value="10000001"></option>
+                </datalist>
+                ;
+            </div>
+            <div>
+                rev:
+                <input type="number" name="rev" id="rev" min="1" step="1" list="defaultrev">
+                <datalist id="defaultrev">
+                    <option value="1"></option>
+                </datalist>
+                ;
+            </div>
+            )
+        </div>
+        <br>
+        <hr>
+        <br>
+        <input type="checkbox" id="enablenocase" onchange="toggleParam(this.id, this.checked)">
+        <label for="enablenocase">Ignore Case</label>
+        <input type="checkbox" id="enablehttp_method" onchange="toggleParam(this.id, this.checked)">
+        <label for="enablehttp_method">HTTP Method</label>
+        <input type="checkbox" id="enablethreshold" onchange="toggleParam(this.id, this.checked)">
+        <label for="enablethreshold">Threshold</label>
+        <button onclick="addTemplate('content')">Add Content</button>
+        <button onclick="addTemplate('regex')">Add Regex</button>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <textarea id="generatedsnort" readonly>Waiting for input...</textarea>
+    </div>
+</body>
+</html>
