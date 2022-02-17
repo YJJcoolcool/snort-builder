@@ -20,7 +20,7 @@ body,html{
     margin: 0 0.2em;
 }
 
-#threshold, #nocase, #http_method {
+#threshold, #nocase, #http_method, #contenttemplate, #regextemplate {
     display: none;
 }
 

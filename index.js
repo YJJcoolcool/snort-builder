@@ -63,7 +63,8 @@ function toggleParam(name,state){
 
 function addTemplate(type){
     var template = document.getElementById(type+'template');
-    var clone = template.content.cloneNode(true);
+    var clone = template.cloneNode(true);
+    clone.id="";
     if (type==="content"){
         contentregex[0]++;
         content.push(contentregex[0]);
@@ -77,9 +78,8 @@ function addTemplate(type){
 }
 
 function removeElement(type, id){
-    console.log(id);
     document.getElementById(id).parentNode.outerHTML="";
-    id = id.substr(type.length,10);
+    id = parseInt(id.substr(type.length,10));
     if (type==="content"){
         content.splice(content.indexOf(id), 1);
     } else {
