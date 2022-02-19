@@ -15,7 +15,7 @@
         <option value="any">Any IP</option>
         <option value="192.168.1.">Single IP</option>
         <option value="192.168.1.0/24">IP range</option>
-        <option value="[192.168.1. , 192.168.1. ]">List of IPs</option>
+        <option value="[192.168.1.X, ...]">List of IPs</option>
     </datalist>
     <!-- Datalist for Ports -->
     <datalist id="portlist">
@@ -125,6 +125,22 @@
                     </div>
                 </div>
             </div>
+            <div id="flow">
+                flow: 
+                <select name="flowto" id="flowto">
+                    <option value="to_client" selected>to_client</option>
+                    <option value="to_server">to_server</option>
+                    <option value="from_client">from_client</option>
+                    <option value="from_server">from_server</option>
+                </select>
+                , 
+                <select name="flowestablishment" id="flowestablishment">
+                    <option value="established"selected>established</option>
+                    <option value="not_established">not_established</option>
+                    <option value="stateless">stateless</option>
+                </select>
+                ;
+            </div>
             <div id="threshold">
                 threshold: type 
                 <select name="thresholdtype" id="thresholdtype">
@@ -173,6 +189,8 @@
         <label for="enablenocase">Ignore Case</label>
         <input type="checkbox" id="enablehttp_method" onchange="toggleParam(this.id, this.checked)">
         <label for="enablehttp_method">HTTP Method</label>
+        <input type="checkbox" id="enableflow" onchange="toggleParam(this.id, this.checked)">
+        <label for="enableflow">Flow</label>
         <input type="checkbox" id="enablethreshold" onchange="toggleParam(this.id, this.checked)">
         <label for="enablethreshold">Threshold</label>
         <button onclick="addTemplate('content')">Add Content</button>
@@ -182,6 +200,18 @@
         <hr>
         <br>
         <textarea id="generatedsnort" readonly>Waiting for input...</textarea>
+        <br>
+        <hr>
+        <br>
+        <button onclick="getTheFile()">Open PCAP file</button>
+        <button onclick="testRule()">Run</button>
+         (You can also drag and drop PCAP files)
+        <br>
+        <br>
+        <textarea id="snorttest" readonly>Waiting for input... (WARNING: This Snort tester is very limited and has MANY bugs! You are STRONGLY RECOMMENDED to use normal Snort!)</textarea>
+    </div>
+    <div id="dragdrop">
+        <h2>Drag and drop PCAP files directly!</h2>
     </div>
 </body>
 </html>
