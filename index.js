@@ -74,7 +74,7 @@ function updateRule(){
         rule+="flow: ";
         var param;
         param = document.getElementById('flowto');
-        rule += param.options[param.selectedIndex].value+", ";
+        (param.options[param.selectedIndex].value==="none")?null:rule += param.options[param.selectedIndex].value+", ";
         param = document.getElementById('flowestablishment');
         rule += param.options[param.selectedIndex].value+"; ";
     }
