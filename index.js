@@ -210,30 +210,39 @@ function testRule(){
 
     setTimeout(()=>{
         numalerts=0;
-        var index=0, findindex=0, length=pcap.length;
+        var index=0, findindex=0, length=pcap.length, packetlength, seqnum, headerlen;
         var temp1=0; // console.log("temp1: "+temp1)
         console.log("Traffic size: "+length);
         if (rule[1]==="tcp"){
             while (index<pcap.length){
                 console.log("Current index: "+index+"/"+length)
-                findindex=pcap.search(/[1-9,a-f]+([1-9,a-f]+000000[1-9,a-f]+000000|\w{2}0000\w{4}0000)[1-9,a-f]+.+080045/im);
+                findindex=pcap.search(/[1-9,a-f]+([1-9,a-f]+000000[1-9,a-f]+000000|\w{2}0000\w{4}0000).+080045/im);
                 console.log(findindex)
                 if (findindex===-1) {
                     console.log("No more packets!")
                     break;
                 } else {
                     temp1++;
+                    console.log(pcap.substr(index,100))
+                    console.log(findindex)
                     var srcip=[], dstip=[], srcport=[], dstport=[];
                     console.log("temp1: "+temp1)
                     console.log("index: "+index);
                     index=findindex+16;
-                    index+=52; // Skip to the Source & Destination Addr
+                    
+                    index+=32; // Skip to the IP Length
+                    // Get length of packet
+                    packetlength=parseInt(pcap.substr(index,4),16);
+
+                    index+=20; // Skip to the Source & Destination Addr
+                    packetlength-=20;
                     console.log("index: "+index);
 
                     // Check Source IP
                     for (var i=0; i<4; i++){
                         srcip.push(parseInt(pcap.substr(index,2),16).toString());
                         index+=2;
+                        packetlength-=2;
                     }
                     if (!matchIP(srcip,'s')) {
                         pcap=pcap.substr(index,pcap.length);
@@ -244,6 +253,7 @@ function testRule(){
                     for (var i=0; i<4; i++){
                         dstip.push(parseInt(pcap.substr(index,2),16).toString());
                         index+=2;
+                        packetlength-=2;
                     }
                     if (!matchIP(dstip,'d')) {
                         pcap=pcap.substr(index,pcap.length);
@@ -254,6 +264,7 @@ function testRule(){
                     // Check Source Port
                     srcport.push(parseInt(pcap.substr(index,4),16).toString());
                     index+=4;
+                    packetlength-=4;
                     if (!matchPort(srcport,'s')) {
                         pcap=pcap.substr(index,pcap.length);
                         index=0;
@@ -262,11 +273,25 @@ function testRule(){
                     // Check Destination Port
                     dstport.push(parseInt(pcap.substr(index,4),16).toString());
                     index+=4;
+                    packetlength-=4;
                     if (!matchPort(dstport,'d')) {
                         pcap=pcap.substr(index,pcap.length);
                         index=0;
                         continue;
                     };
+
+                    // Check Sequence Number
+                    seqnum=pcap.substr(index,8);
+                    index+=4;
+                    packetlength-=4;
+
+                    // Get Header Length
+                    index+=8;
+                    packetlength-=8;
+                    headerlen=parseInt(pcap.substr(index,2),16);
+                    index+=headerlen;
+                    packetlength-=headerlen; // If packetlength is 0, means no more content
+                    console.log("INDEX "+index+" PKTLEN "+packetlength)
 
                     
                     triggeralert(srcip,srcport,dstip,dstport);
@@ -297,6 +322,8 @@ function testRule(){
 function matchIP(ip,type){
     var checkip;
     (type==='s')?checkip=rule[2]:checkip=rule[5];
+    console.log("IP:"+ip);
+    console.log("Check IP:"+checkip);
     if (checkip==="any"){
         return true;
     } else {
@@ -310,10 +337,8 @@ function matchIP(ip,type){
 }
 
 function matchPort(port,type){
-    console.log(port)
     var checkport;
     (type==='s')?checkport=rule[3]:checkport=rule[6];
-    console.log(checkport)
     if (checkport==="any"){
         return true;
     } else {
