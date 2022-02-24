@@ -10,7 +10,8 @@
     <!-- Styles -->
     <link rel="stylesheet" href="index.css">
 </head>
-<body><!-- Datalist for IPs -->
+<body>
+    <!-- Datalist for IPs -->
     <datalist id="iplist">
         <option value="any">Any IP</option>
         <option value="192.168.1.">Single IP</option>
@@ -70,8 +71,23 @@
         <option value="uknown">Unknown Traffic</option>
         <option value="tcp-connection">A TCP connection was detected</option>
     </datalist>
-    <datalist>
-        
+    <!-- Datalist for Fragbits -->
+    <datalist id="fragbitlist">
+        <option value="M">More Fragments</option>
+        <option value="D">Don't Fragment</option>
+        <option value="R">Reserved Bit</option>
+    </datalist>
+    <!-- Datalist for Fragbit Modifiers -->
+    <datalist id="fragbitmodifierlist">
+        <option value="(None)">None (Default)</option>
+        <option value="+">Match on the specified bits, plus any others</option>
+        <option value="*">Match if any of the specified bits are set</option>
+        <option value="!">Match if the specified bits are not set</option>
+    </datalist>
+    <!-- Datalist for Fragoffset -->
+    <datalist id="fragoffsetlist">
+        <option value="0">First packet</option>
+        <option value=">0">Anything other than the first packet</option>
     </datalist>
     <div class="container">
         <h1>Snort Builder</h1>
@@ -98,6 +114,17 @@
                 msg:"
                 <input type="text" name="msg" id="msg" placeholder="Alert Message">
                 ";
+            </div>
+            <div id="fragbitsarea">
+                fragbits: 
+                <input type="text" name="fragbits" id="fragbits" list="fragbitlist" placeholder="Bits">
+                <input type="text" name="fragbitmodifier" id="fragbitmodifier" list="fragbitmodifierlist" placeholder="Modifiers">
+                ; 
+            </div>
+            <div id="fragoffsetarea">
+                fragoffset: 
+                <input type="text" name="fragoffset" id="fragoffset" list="fragoffsetlist" placeholder="Offset">
+                ;
             </div>
             <div id="contentarea">
                 <div id="contenttemplate">
@@ -186,6 +213,10 @@
         <br>
         <hr>
         <br>
+        <input type="checkbox" id="enablefragbitsarea" onchange="toggleParam(this.id, this.checked)">
+        <label for="enablefragbitsarea">Fragbits</label>
+        <input type="checkbox" id="enablefragoffsetarea" onchange="toggleParam(this.id, this.checked)">
+        <label for="enablefragoffsetarea">Fragoffset</label>
         <input type="checkbox" id="enablenocase" onchange="toggleParam(this.id, this.checked)">
         <label for="enablenocase">Ignore Case</label>
         <input type="checkbox" id="enablehttp_method" onchange="toggleParam(this.id, this.checked)">
@@ -209,7 +240,7 @@
          (You can also drag and drop PCAP files)
         <br>
         <br>
-        <textarea id="snorttest" readonly>Waiting for input... (WARNING: This Snort tester is very limited and has MANY bugs! You are STRONGLY RECOMMENDED to use normal Snort!)</textarea>
+        <textarea id="snorttest" readonly>Waiting for input... (WARNING: This Snort tester is very limited and has MANY bugs! You are STRONGLY RECOMMENDED to use normal Snort! Some tests may even crash your browser!)</textarea>
     </div>
     <div id="dragdrop">
         <h2>Drag and drop PCAP files directly!</h2>

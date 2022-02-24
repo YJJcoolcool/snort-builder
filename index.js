@@ -57,6 +57,16 @@ function updateRule(){
     rule += document.getElementById('dstip').value+" "+document.getElementById('dstport').value+" ";
     // Message
     rule += "(msg: \""+document.getElementById('msg').value+"\"; ";
+    // Fragbits
+    if (parameters.indexOf('fragbitsarea')!==-1) {
+        rule += "fragbits: "+document.getElementById('fragbits').value;
+        (document.getElementById('fragbitmodifier').value==="(None)")?null:rule += document.getElementById('fragbitmodifier').value;
+        rule+="; ";
+    }
+    // Fragoffset
+    if (parameters.indexOf('fragoffsetarea')!==-1) {
+        rule += "fragoffset: "+document.getElementById('fragoffset').value+"; ";
+    }
     // Content
     content.forEach((item)=>{
         rule+="content: \""+document.getElementById('content'+item).value+"\"; ";
