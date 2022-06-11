@@ -1,0 +1,42 @@
+body,html{
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    scroll-behavior: smooth;
+}
+
+.container {
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
+}
+
+
+textarea{
+    width: 100%;
+    resize: vertical;
+}
+
+#inputbox{
+    min-height: 10rem;
+    background: rgb(10,10,0);
+    color: rgb(200,200,200);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+table *{
+    border: 1px solid gray;
+}
+tr:nth-child(even) {
+    background-color: #D6EEEE;
+}
+
+#event_count, #datetime, #event_id{
+    text-align: center;
+}

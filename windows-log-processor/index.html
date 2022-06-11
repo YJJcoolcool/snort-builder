@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Log Processor</title>
+    <!-- Script for the snort builder -->
+    <script src="index.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Text box to paste Windows Logs -->
+    <div class="container">
+        <h1>Windows Log Processor</h1>
+        <hr>
+        <textarea id="inputbox" placeholder="Paste Windows logs into this box" autofocus onkeyup="processWindowsLog()" onchange="processWindowsLog()"></textarea>
+        <hr>
+        <table>
+            <thead>
+                <th style="width: 5%;">No.</th>
+                <th style="width: 30%;">Date & Time</th>
+                <th style="width: 20%;">Event ID</th>
+                <th>Event Details</th>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+            <template id="tr_template">
+                <tr>
+                    <td id="event_count"></td>
+                    <td id="datetime"></td>
+                    <td id="event_id"></td>
+                    <td id="event_details"></td>
+                </tr>
+            </template>
+        </table>
+        <br>
+    </div>
+</body>
+</html>
