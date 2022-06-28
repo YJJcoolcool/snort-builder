@@ -75,6 +75,7 @@ const eventID = {
     },
     "4625": {
         "Audit Status": /(Audit \w+)/,
+        "AD Domain": /Audit \w+,(\S+),Logon/,
         "Security ID": /Security ID:(\w\-\d+\-\d+\-\d+)/,
         "Account Name": /Account Name: (\S+) Account/,
         "Account Domain": /Account Domain: (\S+) Logon/,
