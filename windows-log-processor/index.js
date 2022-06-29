@@ -84,5 +84,15 @@ const eventID = {
         "Workstation Name": /Workstation Name: (\S+)/,
         "Source IP": /Source Network Address: (\d+\.\d+\.\d+\.\d+)/,
         "Source Port": /Source Port: (\d+)/,
+    },
+    "4723": {
+        "Audit Status": /(Audit \w+)/,
+        "AD Domain": /Audit \w+,(\S+),User Account Management/,
+        "Subject Security ID": /Subject: Security ID: (\S+)/,
+        "Subject Account Name": /Account Name: (\w+)/,
+        "Subject Account Domain": /Account Domain: (\S+) Logon/,
+        "Target Security ID": /Target Account: Security ID: (\S+)/,
+        "Target Account Name": /Account Name: (\w+)/,
+        "Target Account Domain": /Account Domain: (\S+) Logon/,
     }
 }
